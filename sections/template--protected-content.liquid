@@ -1,0 +1,184 @@
+<div id="protected-content">
+  {% if section.settings.procon_title %}
+    <h1>{{ section.settings.procon_title }}</h1>
+  {% endif %}
+
+  {% if section.settings.procon_body %}  
+    {{ section.settings.procon_body }}
+  {% endif %}
+  
+  <div class="protected-content--actions">
+    {% unless customer %}
+      {% assign redirect_url = canonical_url | remove: shop.url %}
+      <a href="/account/login?checkout_url={{ redirect_url }}" class="btn">Login</a>
+    {% endunless %}
+    {% if section.settings.procon_button_link %}
+      <a href="{{ section.settings.procon_button_link }}" class="btn">{{ section.settings.procon_button_label }}</a>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Protected Content",
+  "settings": [
+    {
+      "type": "text",
+      "id": "procon_title",
+      "label": {
+        "en": "Heading",
+        "de": "Seitenleisten-Überschrift",
+        "es": "Encabezado de la barra lateral",
+        "fr": "Titre de la barre latérale",
+        "pt-PT": "Título da barra lateral"
+      },
+      "default": {
+        "en": "Members Only"
+      }      
+    },
+    {
+      "type": "richtext",
+      "id": "procon_body",
+      "label": {
+        "en": "Text",
+        "de": "Text",
+        "es": "Texto",
+        "fr": "Texte",
+        "pt-PT": "Texto"
+      },
+      "default": {
+        "en": "<p>Thanks for checking out our website!<br>This section is exclusive to our members. You can login if you are a member, or signup to gain access.</p>"
+      }
+    },
+    {
+      "type": "url",
+      "id": "procon_button_link",
+      "label": {
+        "en": "Button link",
+        "de": "Buttonlink",
+        "es": "Enlace del botón",
+        "fr": "Lien du bouton",
+        "pt-PT": "Ligação do botão"
+      },
+      "info": {
+        "en": "Required to show the button",
+        "de": "Notwendig, den Button zu zeigen",
+        "es": "Es necesario mostrar el botón",
+        "fr": "Requis pour afficher le bouton",
+        "pt-PT": "Necessário para exibir o botão"
+      }
+    },
+    {
+      "type": "text",
+      "id": "procon_button_label",
+      "label": {
+        "en": "Button label",
+        "de": "Button-Bezeichnung",
+        "es": "Etiqueta del botón",
+        "fr": "Étiquette du bouton",
+        "pt-PT": "Etiqueta do botão"
+      },
+      "default": "Join Today"
+    },  
+    {
+      "type": "image_picker",
+      "id": "procon_mobile_bg",
+      "label": "Mobile Background"
+    },
+    {
+      "type": "image_picker",
+      "id": "procon_desktop_bg",
+      "label": "Desktop Background"
+    },
+    {
+      "type": "select",
+      "id": "procon_bg_position",
+      "options": [
+        { "value": "center", "label": "Center"},
+        { "value": "top", "label": "Top"},
+        { "value": "bottom", "label": "Bottom"}
+      ],
+      "label": "Background position",
+      "default": "center"
+    },
+    {
+      "type": "color",
+      "id": "procon_text_bg",
+      "label": "Content Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type":      "range",
+      "id":        "procon_text_bg_opacity",
+      "min":       0,
+      "max":        100,
+      "step":       5,
+      "unit":       "%",
+      "label":     "Content Background Opacity",
+      "default":   85
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+{% if section.settings.procon_desktop_bg %}
+  {% render 'responsive-background-image' with section.settings.procon_desktop_bg, selector: '.protected-bg', sizes: '600, 1200, 2000', scale: 1 %}
+{% endif %}
+{% if section.settings.procon_mobile_bg %}
+  @media (max-width: 599px) {
+    .protected-bg {
+      background-image: url('{{ section.settings.procon_mobile_bg | img_url: '600x' }}');
+    }
+  }
+{% endif %}
+.protected-bg {
+  background-size: cover;
+  background-position: {{ section.settings.procon_bg_position }};
+  display: flex;
+  justify-content: center;
+}
+
+{% assign opacity = section.settings.procon_text_bg_opacity | times: 0.01 %}
+.protected-bg #protected-content {
+  border-radius: 3px;
+  background-color: {{ section.settings.procon_text_bg | color_modify: 'alpha', opacity }};
+  padding: 7%;
+  margin:10%;
+}
+#protected-content {
+  text-align: center;
+}
+.protected-content--actions {
+  display: flex;
+  justify-content: space-evenly;
+}
+@media screen and (max-width: 425px) {
+  .protected-content--actions {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+.protected-content--actions a {
+  min-width: 180px;
+}
+
+@media screen and (max-width: 425px) {
+  .protected-content--actions a:last-child {
+    margin-top:10px;
+  }
+}
+<!-- DFG specific styles -->
+{% unless customer.tags contains "member" %}
+<!-- TODO: for some reason this isn't removing margin bottom on header-wrapper -->
+body .header-wrapper {
+  margin-bottom: 0px !important;
+}
+body.suffix-protected-content footer {
+  margin-top: 0px;
+}
+body.suffix-protected-content #main {
+  flex: unset;
+}
+{% endunless %}
+{% endstyle %}

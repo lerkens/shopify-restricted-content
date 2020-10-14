@@ -1,0 +1,9 @@
+{% if customer.tags contains 'member' %}
+  {% section 'template--blog' %}
+{% else %}  
+</div>
+  <div class="protected-bg">
+    {% section 'template--protected-content' %}
+  </div>
+<div>  
+{% endif %}
