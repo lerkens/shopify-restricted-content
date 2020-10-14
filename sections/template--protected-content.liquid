@@ -133,16 +133,16 @@
 {% style %}
 {% if section.settings.procon_desktop_bg %}
   .protected-bg {
-    background-image: url('//cdn.shopify.com/s/files/1/0490/9691/7152/files/wesley-tingey-ZdOW9Qd8mQo-unsplash_600x.jpg?v=1602642284');
+    background-image: url('{{ section.settings.procon_mobile_bg | img_url: '600x' }}');
   }  
   @media (min-width: 601px) and (max-width: 1200px) {
     .protected-bg {
-      background-image: url('//cdn.shopify.com/s/files/1/0490/9691/7152/files/wesley-tingey-ZdOW9Qd8mQo-unsplash_1200x.jpg?v=1602642284');
+      background-image: url('{{ section.settings.procon_mobile_bg | img_url: '1200x' }}');
     }
   }
   @media (min-width: 1201px) {
     .protected-bg {
-      background-image: url('//cdn.shopify.com/s/files/1/0490/9691/7152/files/wesley-tingey-ZdOW9Qd8mQo-unsplash_2000x.jpg?v=1602642284');
+      background-image: url('{{ section.settings.procon_mobile_bg | img_url: '2000x' }}');
     }
   }
 {% endif %}
@@ -159,6 +159,7 @@
   display: flex;
   justify-content: center;
 }
+
 {% assign opacity = section.settings.procon_text_bg_opacity | times: 0.01 %}
 .protected-bg #protected-content {
   border-radius: 3px;
