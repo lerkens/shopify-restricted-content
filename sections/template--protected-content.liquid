@@ -1,23 +1,26 @@
-<div id="protected-content">
-  {% if section.settings.procon_title %}
-    <h1>{{ section.settings.procon_title }}</h1>
-  {% endif %}
+{% if section.settings.procon_full_width %}</div>{% endif %}
+  <div class="protected-bg">
+    <div id="protected-content">
+      {% if section.settings.procon_title %}
+        <h1>{{ section.settings.procon_title }}</h1>
+      {% endif %}
 
-  {% if section.settings.procon_body %}  
-    {{ section.settings.procon_body }}
-  {% endif %}
+      {% if section.settings.procon_body %}  
+        {{ section.settings.procon_body }}
+      {% endif %}
   
-  <div class="protected-content--actions">
-    {% unless customer %}
-      {% assign redirect_url = canonical_url | remove: shop.url %}
-      <a href="/account/login?checkout_url={{ redirect_url }}" class="btn">Login</a>
-    {% endunless %}
-    {% if section.settings.procon_button_link %}
-      <a href="{{ section.settings.procon_button_link }}" class="btn">{{ section.settings.procon_button_label }}</a>
-    {% endif %}
+      <div class="protected-content--actions">
+        {% unless customer %}
+          {% assign redirect_url = canonical_url | remove: shop.url %}
+          <a href="/account/login?checkout_url={{ redirect_url }}" class="btn">Login</a>
+        {% endunless %}
+        {% if section.settings.procon_button_link %}
+          <a href="{{ section.settings.procon_button_link }}" class="btn">{{ section.settings.procon_button_label }}</a>
+        {% endif %}
+      </div>
+    </div>
   </div>
-</div>
-
+{% if section.settings.procon_full_width %}<div>{% endif %}
 {% schema %}
 {
   "name": "Protected Content",
@@ -81,6 +84,12 @@
       "default": "Join Today"
     },  
     {
+       "type": "checkbox",
+       "id": "procon_full_width",
+       "default": true,
+       "label": "Full width image"
+    },
+    {
       "type": "image_picker",
       "id": "procon_mobile_bg",
       "label": "Mobile Background"
@@ -123,7 +132,19 @@
 
 {% style %}
 {% if section.settings.procon_desktop_bg %}
-  {% render 'responsive-background-image' with section.settings.procon_desktop_bg, selector: '.protected-bg', sizes: '600, 1200, 2000', scale: 1 %}
+  .protected-bg {
+    background-image: url('//cdn.shopify.com/s/files/1/0490/9691/7152/files/wesley-tingey-ZdOW9Qd8mQo-unsplash_600x.jpg?v=1602642284');
+  }  
+  @media (min-width: 601px) and (max-width: 1200px) {
+    .protected-bg {
+      background-image: url('//cdn.shopify.com/s/files/1/0490/9691/7152/files/wesley-tingey-ZdOW9Qd8mQo-unsplash_1200x.jpg?v=1602642284');
+    }
+  }
+  @media (min-width: 1201px) {
+    .protected-bg {
+      background-image: url('//cdn.shopify.com/s/files/1/0490/9691/7152/files/wesley-tingey-ZdOW9Qd8mQo-unsplash_2000x.jpg?v=1602642284');
+    }
+  }
 {% endif %}
 {% if section.settings.procon_mobile_bg %}
   @media (max-width: 599px) {
@@ -138,7 +159,6 @@
   display: flex;
   justify-content: center;
 }
-
 {% assign opacity = section.settings.procon_text_bg_opacity | times: 0.01 %}
 .protected-bg #protected-content {
   border-radius: 3px;
@@ -162,23 +182,10 @@
 .protected-content--actions a {
   min-width: 180px;
 }
-
 @media screen and (max-width: 425px) {
   .protected-content--actions a:last-child {
     margin-top:10px;
   }
-}
-<!-- DFG specific styles -->
-{% unless customer.tags contains "member" %}
-<!-- TODO: for some reason this isn't removing margin bottom on header-wrapper -->
-body .header-wrapper {
-  margin-bottom: 0px !important;
-}
-body.suffix-protected-content footer {
-  margin-top: 0px;
-}
-body.suffix-protected-content #main {
-  flex: unset;
 }
 {% endunless %}
 {% endstyle %}

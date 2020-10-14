@@ -1,9 +1,5 @@
 {% if customer.tags contains 'member' %}
   {% section 'template--article' %}
 {% else %}  
-</div>
-  <div class="protected-bg">
-    {% section 'template--protected-content' %}
-  </div>
-<div>  
+  {% section 'template--protected-content' %}
 {% endif %}
