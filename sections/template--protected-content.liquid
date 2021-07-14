@@ -133,16 +133,16 @@
 {% style %}
 {% if section.settings.procon_desktop_bg %}
   .protected-bg {
-    background-image: url('{{ section.settings.procon_mobile_bg | img_url: '600x' }}');
+    background-image: url('{{ section.settings.procon_desktop_bg | img_url: '600x' }}');
   }  
   @media (min-width: 601px) and (max-width: 1200px) {
     .protected-bg {
-      background-image: url('{{ section.settings.procon_mobile_bg | img_url: '1200x' }}');
+      background-image: url('{{ section.settings.procon_desktop_bg | img_url: '1200x' }}');
     }
   }
   @media (min-width: 1201px) {
     .protected-bg {
-      background-image: url('{{ section.settings.procon_mobile_bg | img_url: '2000x' }}');
+      background-image: url('{{ section.settings.procon_desktop_bg | img_url: '2000x' }}');
     }
   }
 {% endif %}
