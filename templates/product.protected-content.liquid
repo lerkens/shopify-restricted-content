@@ -1,0 +1,5 @@
+{% if customer.tags contains 'member' %}
+  {% section 'template--product' %}
+{% else %}  
+  {% section 'template--protected-content' %}
+{% endif %}

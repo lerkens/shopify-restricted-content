@@ -11,8 +11,10 @@
   
       <div class="protected-content--actions">
         {% unless customer %}
+        {% if section.settings.procon_show_login %}
           {% assign redirect_url = canonical_url | remove: shop.url %}
           <a href="/account/login?checkout_url={{ redirect_url }}" class="btn">Login</a>
+        {% endif %}
         {% endunless %}
         {% if section.settings.procon_button_link %}
           <a href="{{ section.settings.procon_button_link }}" class="btn">{{ section.settings.procon_button_label }}</a>
@@ -82,6 +84,12 @@
         "pt-PT": "Etiqueta do botão"
       },
       "default": "Join Today"
+    },
+    {
+       "type": "checkbox",
+       "id": "procon_show_login",
+       "default": true,
+       "label": "Show login button"
     },  
     {
        "type": "checkbox",
@@ -188,5 +196,4 @@
     margin-top:10px;
   }
 }
-{% endunless %}
 {% endstyle %}
