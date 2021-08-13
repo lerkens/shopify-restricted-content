@@ -20,6 +20,13 @@
           <a href="{{ section.settings.procon_button_link }}" class="btn">{{ section.settings.procon_button_label }}</a>
         {% endif %}
       </div>
+
+      {% if section.settings.procon_show_custom_html %}
+      <div class="protected-content--custom-html">
+        {{ section.settings.procon_custom_html }}
+      </div>
+      {% endif %}
+
     </div>
   </div>
 {% if section.settings.procon_full_width %}<div>{% endif %}
@@ -133,6 +140,18 @@
       "unit":       "%",
       "label":     "Content Background Opacity",
       "default":   85
+    },
+    {
+       "type": "checkbox",
+       "id": "procon_show_custom_html",
+       "default": false,
+       "label": "Enable custom HTML"
+    },
+    {
+      "type": "textarea",
+      "id": "procon_custom_html",
+      "label": "Custom HTML",
+      "default": "<h1>put your custom html in here.</h1>"
     }
   ]
 }
@@ -196,4 +215,9 @@
     margin-top:10px;
   }
 }
+
+.protected-content--custom-html {
+  margin-top: 30px;
+}
+
 {% endstyle %}
